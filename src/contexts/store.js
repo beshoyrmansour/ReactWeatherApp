@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import ACTIONS from "./types";
-const initialState = { currentLocation: [0, 0], selectedCityWeatherData: {} };
+const initialState = { currentLocation: [5.8364, 5.8364], selectedCityWeatherData: {} };
 const store = createContext({});
 const { Provider } = store;
 
