@@ -1,32 +1,83 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import { CardContent } from "@material-ui/core";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import { store } from "../contexts/store";
 
-const WeatherInfoCard = ({ city }) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    width: "500px",
+    [theme.breakpoints.down("sm")]: {
+      // flexDirection: "column",
+      width: "80vw",
+    },
+  },
+  details: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    flex: "1 0 auto",
+  },
+  cover: {
+    width: 151,
+  },
+  controls: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  playIcon: {
+    height: 38,
+    width: 38,
+  },
+}));
+const WeatherInfoCard = () => {
+  const classes = useStyles();
+  const { state } = useContext(store);
+
   return (
-    <div>
-      <Paper component="span" m={1} elevation={3} variant="outlined">
-        <Card>
-          <CardContent>
-            {city && city.main ? (
-              <>
-                <p>Name: {city.name}</p>
-                <p>feels Like: {city.main.feels_like}</p>
-                <p>Temp max: {city.main.temp_max}</p>
-                <p>Temp min: {city.main.temp_min}</p>
-              </>
-            ) : (
-              <>
-              <p>Can't Get Your Weather Data</p>
-              <p>Please Select a City</p>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </Paper>
-    </div>
+    <Card className={classes.root} raised>
+      {state.selectedCityWeatherData && state.selectedCityWeatherData.main ? (
+        <>
+          <CardMedia
+            className={classes.cover}
+            image={`http://openweathermap.org/img/wn/${state.selectedCityWeatherData.weather[0].icon}@4x.png`}
+            title="Live from space album cover"
+          />
+          <div className={classes.details}>
+            <CardContent className={classes.content}>
+              <Typography component="h5" variant="h5">
+                {state.selectedCityWeatherData.name}
+                </Typography>
+              <Typography component="h5" variant="h5">
+                {Math.round(state.selectedCityWeatherData.main.feels_like)}
+                &#176; {state.selectedCityWeatherData.weather[0].main}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                {Math.round(state.selectedCityWeatherData.main.temp_max)}&#176;{" "}
+                / {Math.round(state.selectedCityWeatherData.main.temp_min)}
+                &#176;
+              </Typography>
+
+              <Typography variant="subtitle2" color="textSecondary">
+                {state.selectedCityWeatherData.weather[0].description}
+              </Typography>
+            </CardContent>
+          </div>
+        </>
+      ) : (
+        <>
+          <p>Can't Get Your Weather Data</p>
+          <p>Please Select another City</p>
+        </>
+      )}
+    </Card>
   );
 };
 
