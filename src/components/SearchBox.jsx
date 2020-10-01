@@ -166,7 +166,7 @@ const SearchBox = () => {
       <Grow in={state.showResultCard}>
         <div className={classes.showResultPaper}>
           <WeatherInfoCard />
-          <GridList className={classes.gridList} cols={4} elevation={4}>
+          {state.isShowMoreForcast && <GridList className={classes.gridList} cols={4} elevation={4}>
             <GridListTile
               key={1}
               className={classes.gridListTile}
@@ -206,7 +206,7 @@ const SearchBox = () => {
                 <SmallWeatherInfoCard />
               </Paper>
             </GridListTile>
-          </GridList>
+          </GridList>}
         </div>
       </Grow>
     </div>

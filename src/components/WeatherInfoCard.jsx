@@ -3,8 +3,12 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import { showMoreForcast } from "../contexts/actions";
 import { store } from "../contexts/store";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,8 +43,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 const WeatherInfoCard = () => {
   const classes = useStyles();
-  const { state } = useContext(store);
-
+  const { dispatch, state } = useContext(store);
+  const handleShowMoreForcast = () => {
+    showMoreForcast(state)(dispatch);
+  };
   return (
     <Card className={classes.root} raised>
       {state.selectedCityWeatherData && state.selectedCityWeatherData.main ? (
@@ -54,7 +60,7 @@ const WeatherInfoCard = () => {
             <CardContent className={classes.content}>
               <Typography component="h5" variant="h5">
                 {state.selectedCityWeatherData.name}
-                </Typography>
+              </Typography>
               <Typography component="h5" variant="h5">
                 {Math.round(state.selectedCityWeatherData.main.feels_like)}
                 &#176; {state.selectedCityWeatherData.weather[0].main}
@@ -69,6 +75,16 @@ const WeatherInfoCard = () => {
                 {state.selectedCityWeatherData.weather[0].description}
               </Typography>
             </CardContent>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={handleShowMoreForcast}
+              >
+                {state.isShowMoreForcast ? "Hide forcasts" : "Show more"}
+                <ChevronRightIcon />
+              </Button>
+            </CardActions>
           </div>
         </>
       ) : (

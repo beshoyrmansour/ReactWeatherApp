@@ -5,6 +5,7 @@ const initialState = {
   selectedCityWeatherData: {},
   isFechingLocation: true,
   showResultCard: false,
+  isShowMoreForcast: false,
   searchValue: "",
 };
 const store = createContext({});
