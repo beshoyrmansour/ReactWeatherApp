@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { store } from "../contexts/store";
 import ACTIONS from "../contexts/types";
 import { searchForWeatherData } from "../contexts/actions";
+import logo from "../owlogo.png";
 
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,7 +15,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import WeatherInfoCard from "./WeatherInfoCard";
-import SmallWeatherInfoCard from "./SmallWeatherInfoCard";
+import DayWeatherInfoCard from "./DayWeatherInfoCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1rem",
     flexDirection: "column",
     [theme.breakpoints.up("sm")]: {
-      width: "90vw",
+      // width: "90vw",
       flexDirection: "column",
     },
   },
@@ -38,15 +39,15 @@ const useStyles = makeStyles((theme) => ({
     transform: "translateZ(0)",
   },
   gridListTile: {
-    width: "300px",
-    backgroundColor: "black",
+    // width: "300px",
+    // backgroundColor: "black",
     marginRight: "10px",
   },
   appBar: {
     position: "absolute",
     bottom: "auto",
     top: "15px",
-    left: "5%",
+    // left: "5%",
     width: "300px",
 
     // right: "auto",
@@ -55,16 +56,13 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     bottom: "auto",
     top: "15px",
-    width: "90vw",
-    // left: "5%",
-    // right: "auto",
+    width: "100vw",
+    paddingBottom: "20px",
     display: "flex",
     overflowX: "hidden",
-
-    // maxWidth: "300px",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     [theme.breakpoints.down("sm")]: {
-      // width: "90vw",
-      maxWidth: "auto",
       flexDirection: "column",
     },
   },
@@ -74,6 +72,8 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
+    margin: 10,
+
     backgroundColor: fade(theme.palette.common.white, 0.15),
     width: "100%",
     "&:hover": {
@@ -116,6 +116,13 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
+  toolbar: {
+    paddingRight: 0,
+    width: "auto",
+    backgroundColor: theme.palette.primary.dark,
+    borderRadius: theme.shape.borderRadius,
+  },
 }));
 
 const SearchBox = () => {
@@ -140,8 +147,12 @@ const SearchBox = () => {
   };
   return (
     <div className={classes.appBar}>
-      <Paper elevation={3}>
-        <Toolbar style={{ paddingRight: 0 }}>
+      <Paper
+        elevation={3}
+        style={{ margin: "10px 10px 0px 20px", float: "left" }}
+      >
+        <Toolbar className={classes.toolbar}>
+          <img src={logo} width="60" alt="openweathermap logo" />
           <div className={classes.search}>
             <InputBase
               placeholder="City Name…"
@@ -166,47 +177,21 @@ const SearchBox = () => {
       <Grow in={state.showResultCard}>
         <div className={classes.showResultPaper}>
           <WeatherInfoCard />
-          {state.isShowMoreForcast && <GridList className={classes.gridList} cols={4} elevation={4}>
-            <GridListTile
-              key={1}
-              className={classes.gridListTile}
-              style={{ height: "100%", width: "250px" }}
-            >
-              <Paper elevation={4}>
-                <SmallWeatherInfoCard />
-              </Paper>
-            </GridListTile>
-
-            <GridListTile
-              key={2}
-              className={classes.gridListTile}
-              style={{ height: "100%", width: "250px" }}
-            >
-              <Paper elevation={4}>
-                <SmallWeatherInfoCard />
-              </Paper>
-            </GridListTile>
-
-            <GridListTile
-              key={3}
-              className={classes.gridListTile}
-              style={{ height: "100%", width: "250px" }}
-            >
-              <Paper elevation={4}>
-                <SmallWeatherInfoCard />
-              </Paper>
-            </GridListTile>
-
-            <GridListTile
-              key={4}
-              className={classes.gridListTile}
-              style={{ height: "100%", width: "250px" }}
-            >
-              <Paper elevation={4}>
-                <SmallWeatherInfoCard />
-              </Paper>
-            </GridListTile>
-          </GridList>}
+          {state.isShowMoreForcast && (
+            <GridList className={classes.gridList} elevation={4}>
+              {state.moreForcastList.map((dayData) => (
+                <GridListTile
+                  key={dayData.date}
+                  className={classes.gridListTile}
+                  style={{ height: "100%", width: "fit-content" }}
+                >
+                  {/* <Paper elevation={4}> */}
+                  <DayWeatherInfoCard dayData={dayData} />
+                  {/* </Paper> */}
+                </GridListTile>
+              ))}
+            </GridList>
+          )}
         </div>
       </Grow>
     </div>

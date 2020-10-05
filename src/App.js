@@ -8,7 +8,16 @@ import {
   fetchWeatherDatabyGeolocation,
   fetchWeatherDatabyIP,
 } from "./contexts/actions";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import deepOrange from "@material-ui/core/colors/deepOrange";
+import blueGrey from "@material-ui/core/colors/blueGrey";
 
+const theme = createMuiTheme({
+  palette: {
+    primary: blueGrey,
+    secondary: deepOrange,
+  },
+});
 function App() {
   const { dispatch, state } = useContext(store);
 
@@ -23,17 +32,17 @@ function App() {
       );
     } else {
       console.log("Not Available =====");
-      fetchWeatherDatabyIP()(dispatch)
+      fetchWeatherDatabyIP()(dispatch);
     }
     return () => {};
   }, []);
   return (
     <>
       {state && (
-        <>
+        <ThemeProvider theme={theme}>
           <MapComp />
           <SearchBox />
-        </>
+        </ThemeProvider>
       )}
     </>
   );

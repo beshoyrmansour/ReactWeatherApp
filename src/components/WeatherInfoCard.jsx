@@ -14,10 +14,16 @@ import { store } from "../contexts/store";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    width: "500px",
+    // width: "500px",
+    // marginLeft: 20,
+    margin: "25px 20px 15px 20px",
+    padding: 10,
+    minWidth: 350,
+    // maxHeight: "250px",
+    // marginLeft: 20,
     [theme.breakpoints.down("sm")]: {
       // flexDirection: "column",
-      width: "80vw",
+      width: "90vw",
     },
   },
   details: {
@@ -29,16 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: 151,
+    marginBottom: 20,
   },
   controls: {
     display: "flex",
     alignItems: "center",
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
   },
 }));
 const WeatherInfoCard = () => {
@@ -54,7 +57,7 @@ const WeatherInfoCard = () => {
           <CardMedia
             className={classes.cover}
             image={`http://openweathermap.org/img/wn/${state.selectedCityWeatherData.weather[0].icon}@4x.png`}
-            title="Live from space album cover"
+            title="Weather icon"
           />
           <div className={classes.details}>
             <CardContent className={classes.content}>

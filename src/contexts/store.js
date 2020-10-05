@@ -7,6 +7,7 @@ const initialState = {
   showResultCard: false,
   isShowMoreForcast: false,
   searchValue: "",
+  moreForcastList: [],
 };
 const store = createContext({});
 const { Provider } = store;
@@ -20,6 +21,7 @@ const StateProvider = ({ children }) => {
           currentLocation: action.payload,
         };
       case ACTIONS.SET_IS_FECHING:
+        console.log(action.payload.key + ":" + action.payload.value);
         return {
           ...state,
           [action.payload.key]: action.payload.value,
@@ -42,6 +44,11 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           searchValue: action.payload,
+        };
+      case ACTIONS.SHOW_MORE_FORCAST:
+        return {
+          ...state,
+          moreForcastList: [...action.payload],
         };
 
       default:
