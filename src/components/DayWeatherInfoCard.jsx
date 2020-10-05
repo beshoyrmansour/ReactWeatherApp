@@ -1,15 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { showMoreForcast } from "../contexts/actions";
-import { store } from "../contexts/store";
 import moment from "moment";
 import Grid from "@material-ui/core/Grid";
 
@@ -21,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "15px",
     padding: 10,
     [theme.breakpoints.down("sm")]: {
-      // flexDirection: "column",
-      //   width: "80vw",
     },
   },
   details: {
@@ -51,9 +44,6 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     width: "fit-content",
     display: "flex",
-    // border: `1px solid ${theme.palette.divider}`,
-    // borderRadius: theme.shape.borderRadius,
-    // backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.secondary,
     flexDirection: "row",
     flexWrap: "nowrap",
@@ -66,11 +56,6 @@ const useStyles = makeStyles((theme) => ({
 
 const DayWeatherInfoCard = ({ dayData }) => {
   const classes = useStyles();
-  const { dispatch, state } = useContext(store);
-  const handleShowMoreForcast = () => {
-    showMoreForcast(state)(dispatch);
-  };
-  console.log("weatherData", dayData);
   return (
     <Card className={classes.root} raised>
       {dayData && "times" in dayData ? (
@@ -82,7 +67,7 @@ const DayWeatherInfoCard = ({ dayData }) => {
                 dayData.times[Math.round(dayData.times.length / 2)].weather[0]
                   .icon
               }@2x.png`}
-              title="Weather icon"
+              alt="Weather icon"
             />
             <div>
               <Typography component="p" variant="p">
@@ -128,19 +113,6 @@ const DayWeatherInfoCard = ({ dayData }) => {
                   </div>
                 ))}
               </Grid>
-              {/* <Typography component="h5" variant="h5">
-                {Math.round(dayData.main.feels_like)}
-                &#176; {dayData.weather[0].main}
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                {Math.round(dayData.main.temp_max)}&#176; /{" "}
-                {Math.round(dayData.main.temp_min)}
-                &#176;
-              </Typography>
-
-              <Typography variant="subtitle2" color="textSecondary">
-                {dayData.weather[0].description}
-              </Typography> */}
             </CardContent>
           </div>
         </>

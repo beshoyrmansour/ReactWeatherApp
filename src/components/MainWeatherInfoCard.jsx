@@ -14,17 +14,9 @@ import { store } from "../contexts/store";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    // width: "500px",
-    // marginLeft: 20,
     margin: "25px 20px 15px 20px",
     padding: 10,
-    minWidth: 350,
-    // maxHeight: "250px",
-    // marginLeft: 20,
-    [theme.breakpoints.down("sm")]: {
-      // flexDirection: "column",
-      width: "90vw",
-    },
+    minWidth: 300,
   },
   details: {
     display: "flex",
@@ -34,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 0 auto",
   },
   cover: {
-    width: 151,
+    width: 128,
     marginBottom: 20,
   },
   controls: {
@@ -44,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
   },
 }));
-const WeatherInfoCard = () => {
+const WeatherInfoCard = ({ isOverlay }) => {
   const classes = useStyles();
   const { dispatch, state } = useContext(store);
   const handleShowMoreForcast = () => {
@@ -78,16 +70,18 @@ const WeatherInfoCard = () => {
                 {state.selectedCityWeatherData.weather[0].description}
               </Typography>
             </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                onClick={handleShowMoreForcast}
-              >
-                {state.isShowMoreForcast ? "Hide forcasts" : "Show more"}
-                <ChevronRightIcon />
-              </Button>
-            </CardActions>
+            {!isOverlay && (
+              <CardActions>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={handleShowMoreForcast}
+                >
+                  {state.isShowMoreForcast ? "Hide forcasts" : "Show more"}
+                  <ChevronRightIcon />
+                </Button>
+              </CardActions>
+            )}
           </div>
         </>
       ) : (

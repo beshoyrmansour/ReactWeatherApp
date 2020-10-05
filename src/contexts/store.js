@@ -15,13 +15,13 @@ const { Provider } = store;
 const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
+      
       case ACTIONS.SET_CURRENT_LOCATION:
         return {
           ...state,
           currentLocation: action.payload,
         };
       case ACTIONS.SET_IS_FECHING:
-        console.log(action.payload.key + ":" + action.payload.value);
         return {
           ...state,
           [action.payload.key]: action.payload.value,
@@ -45,6 +45,7 @@ const StateProvider = ({ children }) => {
           ...state,
           searchValue: action.payload,
         };
+        
       case ACTIONS.SHOW_MORE_FORCAST:
         return {
           ...state,
@@ -52,7 +53,6 @@ const StateProvider = ({ children }) => {
         };
 
       default:
-        console.log("default", state);
         return { ...state };
     }
   }, initialState);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { store } from "../contexts/store";
 import ACTIONS from "../contexts/types";
 import { searchForWeatherData } from "../contexts/actions";
@@ -14,7 +14,7 @@ import Grow from "@material-ui/core/Grow";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import WeatherInfoCard from "./WeatherInfoCard";
+import MainWeatherInfoCard from "./MainWeatherInfoCard";
 import DayWeatherInfoCard from "./DayWeatherInfoCard";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1rem",
     flexDirection: "column",
     [theme.breakpoints.up("sm")]: {
-      // width: "90vw",
       flexDirection: "column",
     },
   },
@@ -35,28 +34,22 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
     margin: "10px",
     flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
   gridListTile: {
-    // width: "300px",
-    // backgroundColor: "black",
     marginRight: "10px",
   },
   appBar: {
     position: "absolute",
     bottom: "auto",
     top: "15px",
-    // left: "5%",
-    width: "300px",
-
-    // right: "auto",
+    width: "100%",
   },
   showResultPaper: {
     position: "relative",
     bottom: "auto",
     top: "15px",
-    width: "100vw",
+    width: "100%",
     paddingBottom: "20px",
     display: "flex",
     overflowX: "hidden",
@@ -74,10 +67,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     margin: 10,
 
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: fade(theme.palette.common.white, 0.25),
     width: "100%",
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.white, 0.35),
     },
     marginRight: 0,
     [theme.breakpoints.up("sm")]: {
@@ -105,8 +98,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 0, 1, 1),
-    // vertical padding + font size from searchIcon
-    // paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
@@ -125,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBox = () => {
+const WeatherBox = () => {
   const { dispatch, state } = useContext(store);
   const classes = useStyles();
 
@@ -138,7 +129,6 @@ const SearchBox = () => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      console.log("enter press here! ");
       onSearch();
     }
   };
@@ -176,7 +166,7 @@ const SearchBox = () => {
       </Paper>
       <Grow in={state.showResultCard}>
         <div className={classes.showResultPaper}>
-          <WeatherInfoCard />
+          <MainWeatherInfoCard />
           {state.isShowMoreForcast && (
             <GridList className={classes.gridList} elevation={4}>
               {state.moreForcastList.map((dayData) => (
@@ -185,9 +175,7 @@ const SearchBox = () => {
                   className={classes.gridListTile}
                   style={{ height: "100%", width: "fit-content" }}
                 >
-                  {/* <Paper elevation={4}> */}
                   <DayWeatherInfoCard dayData={dayData} />
-                  {/* </Paper> */}
                 </GridListTile>
               ))}
             </GridList>
@@ -198,4 +186,4 @@ const SearchBox = () => {
   );
 };
 
-export default SearchBox;
+export default WeatherBox;

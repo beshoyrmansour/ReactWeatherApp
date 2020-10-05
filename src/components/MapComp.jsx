@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Map from "pigeon-maps";
 import Marker from "pigeon-marker";
 import Overlay from "pigeon-overlay";
 import useWindowDimensions from "../hooks/useWindowDimensions";
-import WeatherInfoCard from "./WeatherInfoCard";
+import MainWeatherInfoCard from "./MainWeatherInfoCard";
 import { store } from "../contexts/store";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     position: "absolute",
-
     top: "50%",
     left: "50%",
     overflow: "hidden",
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MapComp = () => {
-  const { dispatch, state } = useContext(store);
+  const { state } = useContext(store);
   const classes = useStyles();
 
   const { height, width } = useWindowDimensions();
@@ -32,7 +31,7 @@ const MapComp = () => {
         </div>
       ) : (
         <Map
-          center={state.currentLocation}
+          center={[state.currentLocation[0] + .03, state.currentLocation[1]]}
           zoom={12}
           width={width - 2}
           height={height - 7}
@@ -46,7 +45,7 @@ const MapComp = () => {
           />
           {showInfoCard && (
             <Overlay anchor={state.currentLocation}>
-              <WeatherInfoCard />
+              <MainWeatherInfoCard isOverlay />
             </Overlay>
           )}
         </Map>
