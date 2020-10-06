@@ -15,8 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
     margin: "15px",
     padding: 10,
-    [theme.breakpoints.down("sm")]: {
-    },
+    [theme.breakpoints.down("sm")]: {},
   },
   details: {
     display: "flex",
@@ -70,7 +69,7 @@ const DayWeatherInfoCard = ({ dayData }) => {
               alt="Weather icon"
             />
             <div>
-              <Typography component="p" variant="p">
+              <Typography component="p" variant="body1">
                 <strong>
                   {Math.round(
                     dayData.times[Math.round(dayData.times.length / 2)].main
@@ -92,21 +91,21 @@ const DayWeatherInfoCard = ({ dayData }) => {
             <CardContent className={classes.content}>
               <Grid container alignItems="center" className={classes.grid}>
                 {dayData.times.map((time) => (
-                  <div className={classes.gridItem}>
+                  <div className={classes.gridItem} key={time.dt}>
                     <CardMedia
                       className={classes.timeWeatherIcon}
                       image={`http://openweathermap.org/img/wn/${time.weather[0].icon}@2x.png`}
                       title="Weather icon"
                     />
                     <CardContent className={classes.timeContent}>
-                      <Typography component="p" variant="p">
+                      <Typography component="p" variant="body1">
                         <strong>
                           {Math.round(time.main.feels_like)}
                           &#176;{" "}
                         </strong>
                         {time.weather[0].main}
                       </Typography>
-                      <Typography component="p" variant="p">
+                      <Typography component="p" variant="body1">
                         {moment(time.dt_txt).format("hh:mm A")}
                       </Typography>
                     </CardContent>
