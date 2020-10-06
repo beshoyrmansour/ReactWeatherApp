@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px",
     flexWrap: "nowrap",
     transform: "translateZ(0)",
+    width: "100%",
   },
   gridListTile: {
     marginRight: "10px",
