@@ -55,16 +55,19 @@ const useStyles = makeStyles((theme) => ({
 
 const DayWeatherInfoCard = ({ dayData }) => {
   const classes = useStyles();
+
+  const getTimeIndex = (arr) => {
+    return arr.length > 1 ? Math.round(dayData.times.length / 2) - 1 : 0;
+  };
   return (
     <Card className={classes.root} raised>
-      {dayData && "times" in dayData ? (
+      {dayData && "times" in dayData && dayData.times.length ? (
         <>
           <div className="d-flex w-100 justify-content-start align-items-center">
             <img
               className={classes.weatherIcon}
               src={`http://openweathermap.org/img/wn/${
-                dayData.times[Math.round(dayData.times.length / 2)].weather[0]
-                  .icon
+                dayData.times[getTimeIndex(dayData.times)].weather[0].icon
               }@2x.png`}
               alt="Weather icon"
             />
@@ -72,15 +75,11 @@ const DayWeatherInfoCard = ({ dayData }) => {
               <Typography component="p" variant="body1">
                 <strong>
                   {Math.round(
-                    dayData.times[Math.round(dayData.times.length / 2)].main
-                      .feels_like
+                    dayData.times[getTimeIndex(dayData.times)].main.feels_like
                   )}
                   &#176;
                 </strong>{" "}
-                {
-                  dayData.times[Math.round(dayData.times.length / 2)].weather[0]
-                    .main
-                }
+                {dayData.times[getTimeIndex(dayData.times)].weather[0].main}
               </Typography>
               <Typography component="h5" variant="h5">
                 {moment(dayData.day).format("DD, MMM YYYY")}
