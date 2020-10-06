@@ -30,25 +30,32 @@ const MapComp = () => {
           <CircularProgress />
         </div>
       ) : (
-        <Map
-          center={[state.currentLocation[0] + .03, state.currentLocation[1]]}
-          zoom={12}
-          width={width - 2}
-          height={height - 7}
-        >
-          <Marker
-            anchor={state.currentLocation}
-            payload={state.selectedCityWeatherData}
-            onClick={({ event, anchor, payload }) => {
-              setShowInfoCard(!showInfoCard);
-            }}
-          />
-          {showInfoCard && (
-            <Overlay anchor={state.currentLocation}>
-              <MainWeatherInfoCard isOverlay />
-            </Overlay>
+        <>
+          {state.currentLocation && (
+            <Map
+              center={[
+                state.currentLocation[0] + 0.03,
+                state.currentLocation[1],
+              ]}
+              zoom={12}
+              width={width - 2}
+              height={height - 7}
+            >
+              <Marker
+                anchor={state.currentLocation}
+                payload={state.selectedCityWeatherData}
+                onClick={({ event, anchor, payload }) => {
+                  setShowInfoCard(!showInfoCard);
+                }}
+              />
+              {showInfoCard && (
+                <Overlay anchor={state.currentLocation}>
+                  <MainWeatherInfoCard isOverlay />
+                </Overlay>
+              )}
+            </Map>
           )}
-        </Map>
+        </>
       )}
     </>
   );

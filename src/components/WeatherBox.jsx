@@ -169,15 +169,21 @@ const WeatherBox = () => {
           <MainWeatherInfoCard />
           {state.isShowMoreForcast && (
             <GridList className={classes.gridList} elevation={4}>
-              {state.moreForcastList.map((dayData) => (
-                <GridListTile
-                  key={dayData.date}
-                  className={classes.gridListTile}
-                  style={{ height: "100%", width: "fit-content" }}
-                >
-                  <DayWeatherInfoCard dayData={dayData} />
-                </GridListTile>
-              ))}
+              {state.moreForcastList &&
+                state.moreForcastList.length &&
+                state.moreForcastList.map((dayData) => (
+                  <>
+                    {"times" in dayData && dayData.times.length && (
+                      <GridListTile
+                        key={dayData.date}
+                        className={classes.gridListTile}
+                        style={{ height: "100%", width: "fit-content" }}
+                      >
+                        <DayWeatherInfoCard dayData={dayData} />
+                      </GridListTile>
+                    )}
+                  </>
+                ))}
             </GridList>
           )}
         </div>
