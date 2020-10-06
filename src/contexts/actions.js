@@ -90,6 +90,13 @@ export const searchForWeatherData = (state) => (dispatch) => {
             value: false,
           },
         });
+        dispatch({
+          type: ACTIONS.SET_IS_FECHING,
+          payload: {
+            key: "isShowMoreForcast",
+            value: false,
+          },
+        });
       } else {
         dispatch({
           type: ACTIONS.SET_SELECTED_CITY_WEATHER_DATA,
